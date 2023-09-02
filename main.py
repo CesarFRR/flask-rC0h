@@ -3,7 +3,10 @@ import os
 import database as db
 
 
-app = Flask(__name__)
+template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+template_dir = os.path.join(template_dir, 'src', 'templates')
+
+app = Flask(__name__, template_folder = template_dir)
 
 @app.route('/')
 def index():
