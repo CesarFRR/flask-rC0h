@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <a href="{{ url_for('home') }}" class="btn btn-primary mb-3 mt-4">Inicio</a>
+    <h1 class="text-center mt-5 mb-5 text-primary">Gestión de viviendas</h1>
+
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-body">
+                <form action="/vivienda_add" method="POST">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Dirección</label>
+                            <input type="text" class="form-control mb-3" name="direccion">
+                        </div>
+                        <div class="col">
+                            <label>Municipio</label>
+                            <input type="text" class="form-control mb-3" name="id_municipio">
+                        </div>
+                        <div class="col">
+                            <label for="">Capacidad</label>
+                            <input type="text" class="form-control mb-3" name="capacidad">
+                        </div>
+                        <div class="col">
+                            <label>Niveles</label>
+                            <input type="number" class="form-control mb-3" name="niveles">
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary mb-3 mt-4" type="submit">Guardar</button>
+                        </div>
+                    </div>
+
+                </form>
+
+
+                <!-- Tabla -->
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Municipio</th>
+                            <th scope="col">Capacidad</th>
+                            <th scope="col">Niveles</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Borrar</th>
+                        </tr>
+                    </thead>
+                
+                <tbody>
+                    {% for d in data %}
+                        <tr>
+                            <td>{{d.id}}</td>
+                            <td>{{d.direccion}}</td>
+                            <td>{{d.id_municipio}}</td>
+                            <td>{{d.capacidad}}</td>
+                            <td>{{d.niveles}}</td>
+                            <td><button class="btn btn-primary btn-sm" id="btn-edit{{d.id}}" data-bs-toggle="modal" data-bs-target="#modal{{d.id}}">Editar</button></td>
+                            <td><a href="{{url_for('vivienda_delete', id=d.id)}}" class="btn btn-danger btn-sm">Borrar</a></td>
+                        </tr>
+
+                        <!-- modal -->
+
+                        <div class="modal fade" id="modal{{d.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Vivienda de la dirección: {{d.direccion}}</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/vivienda_edit/{{d.id}}" method="post">
+                                        <label for="id" >id</label>
+                                        <input type="number" class="form-control mb-3" name="id" value="{{d.id}}" readonly>
+                                        <label for="direccion">Dirección</label>
+                                        <input type="text" class="form-control mb-3" name="direccion" value="{{d.direccion}}">
+                                        <label for="municipio">Municipio</label>
+                                        <input type="number" class="form-control mb-3" name="id_municipio" value="{{d.id_municipio}}">
+                                        <label for="capacidad">Capacidad</label>
+                                        <input type="number" class="form-control mb-3" name="capacidad" value="{{d.capacidad}}">
+                                        <label for="niveles">Niveles</label>
+                                        <input type="number" class="form-control mb-3" name="niveles" value="{{d.niveles}}">
+                                  
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
